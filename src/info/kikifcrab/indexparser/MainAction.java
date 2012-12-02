@@ -7,6 +7,7 @@ import java.net.URL;
 
 import org.htmlparser.Parser;
 import org.htmlparser.util.ParserException;
+import org.htmlparser.visitors.TextExtractingVisitor;
 
 
 
@@ -22,9 +23,16 @@ public class MainAction {
 	 */
 	public static void main(String[] args) throws ParserException, MalformedURLException, IOException {
 		// TODO Auto-generated method stub
-		System.out.print("indexParser start");
+		System.out.println("indexParser start");
 		try{
+			//读取并解析整个HTML
 			Parser parser=new Parser((HttpURLConnection)(new URL(TARGET_ADDR)).openConnection());			
+			TextExtractingVisitor visitor=new TextExtractingVisitor();
+			parser.visitAllNodesWith(visitor);
+			String textNodePage=visitor.getExtractedText();
+			
+			//打印该HTML节点内容
+			System.out.println(new String(textNodePage.getBytes("GBK"),System.getProperty("file.encoding")));
 		}catch(Exception e){
 			
 		}
