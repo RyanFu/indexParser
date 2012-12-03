@@ -1,10 +1,14 @@
 package info.kikifcrab.indexparser;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.htmlparser.Node;
 import org.htmlparser.Parser;
+import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.TextExtractingVisitor;
 
@@ -24,14 +28,21 @@ public class MainAction {
 		// TODO Auto-generated method stub
 		System.out.println("indexParser start");
 		try{
+			ParseTools tool=new ParseTools();
 			//读取并解析整个HTML
 			Parser parser=new Parser((new URL(TARGET_ADDR)).openConnection());			
 			TextExtractingVisitor visitor=new TextExtractingVisitor();
-			parser.visitAllNodesWith(visitor);
-			String textNodePage=visitor.getExtractedText();
+//			parser.visitAllNodesWith(visitor);
+//			String textNodePage=visitor.getExtractedText();
 			
 			//打印该HTML节点内容
-			System.out.println(new String(textNodePage.getBytes("GBK"),System.getProperty("file.encoding")));
+//			tool.printMsg(textNodePage);
+			
+			for(NodeIterator i=parser.elements();i.hasMoreNodes();){
+				Node node=i.nextNode();
+				tool.getNodes(node);
+			}
+			
 		}catch(Exception e){
 			
 		}
