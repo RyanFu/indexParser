@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.htmlparser.Parser;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.TextExtractingVisitor;
@@ -26,7 +25,7 @@ public class MainAction {
 		System.out.println("indexParser start");
 		try{
 			//读取并解析整个HTML
-			Parser parser=new Parser((HttpURLConnection)(new URL(TARGET_ADDR)).openConnection());			
+			Parser parser=new Parser((new URL(TARGET_ADDR)).openConnection());			
 			TextExtractingVisitor visitor=new TextExtractingVisitor();
 			parser.visitAllNodesWith(visitor);
 			String textNodePage=visitor.getExtractedText();
