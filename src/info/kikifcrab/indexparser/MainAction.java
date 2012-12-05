@@ -14,20 +14,24 @@ import java.net.URL;
 import org.htmlparser.Attribute;
 import org.htmlparser.Node;
 import org.htmlparser.Parser;
+import org.htmlparser.Tag;
 import org.htmlparser.nodes.AbstractNode;
 import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.InputTag;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
+import org.htmlparser.util.SimpleNodeIterator;
 import org.htmlparser.visitors.TextExtractingVisitor;
 
 
 
-//移动客户端HTML文件解析与动态生成
+//对HTML文件进行解析，下载IMG对象
 public class MainAction {
 	
 	static final String TARGET_ADDR="http://elog.gdbnet.cn:8001/themes/mobileModule/index_10382.html";
+//	static final String TARGET_ADDR="http://www.jandan.net/pic";
+
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -44,8 +48,9 @@ public class MainAction {
 //			Parser parser=new Parser((new URL(TARGET_ADDR)).openConnection());			
 			//通过读取自身文件获取
 			Parser parser=new Parser(readHTML("E:\\parserTest\\index.htm"));
+			parser.setEncoding("utf-8");
 			
-			
+			//通过visit容器访问
 			TextExtractingVisitor visitor=new TextExtractingVisitor();
 //			parser.visitAllNodesWith(visitor);
 //			String textNodePage=visitor.getExtractedText();
@@ -59,6 +64,7 @@ public class MainAction {
 			}
 	*/		
 			//打印过滤的节点内容
+/*			
 			NodeList filterNodeList=tool.getFilterTag(parser);
 			String testATTR="";
 			if(filterNodeList!=null){
@@ -73,11 +79,14 @@ public class MainAction {
 					testATTR=tmlNode.toHtml();
 					if(tmlNode.toHtml().equals(testATTR))
 						System.out.println("true");
-//					parser.reset();
 //					System.out.print(testATTR);			//打印信息
 				}
 			}
- 
+ */
+			//遍历节点
+			NodeList nodes=parser.parse(null);
+			tool.visitAllNode(nodes);
+	
 			//将新内容写入新文件
 			String saveFileName="E:\\parserTest\\index_new.htm";
 			String newContent="";
@@ -108,6 +117,11 @@ public class MainAction {
 	//写入文件
 	private static void writeHTML(String fileName,String content){
 		File newIndex=new File(fileName);
+		
+	}
+	
+	//下载对应的IMG对象
+	private static void downloadPic(String addr){
 		
 	}
 
