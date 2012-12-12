@@ -3,6 +3,8 @@ package info.kikifcrab.indexparser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -116,8 +118,20 @@ public class MainAction {
 	
 	//写入文件
 	private static void writeHTML(String fileName,String content){
-		File newIndex=new File(fileName);
-		
+		try {
+			File newIndex=new File(fileName);
+			if(!newIndex.exists()){
+				//建立新文件
+				newIndex.createNewFile();
+			}
+			FileOutputStream out=new FileOutputStream(newIndex);
+			out.write(content.getBytes());
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//下载对应的IMG对象
