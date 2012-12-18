@@ -1,5 +1,6 @@
 package info.kikifcrab.indexparser;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,11 +8,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
 
 import org.htmlparser.Attribute;
 import org.htmlparser.Node;
@@ -135,8 +140,31 @@ public class MainAction {
 	}
 	
 	//下载对应的IMG对象
-	private static void downloadPic(String addr){
+	private HttpServletResponse downloadPic(String addr,HttpServletResponse response){
 		
+		File file=new File(addr);
+
+		String filename=file.getName();
+		
+		//取后缀名
+		String ext=filename.substring(filename.indexOf(".")+1);
+		
+		//流形式下载文件
+		try {
+			InputStream fis=new BufferedInputStream(new FileInputStream(addr));
+			byte[] buffer=new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			
+			//设置response的header
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return response;
 	}
 
 }
