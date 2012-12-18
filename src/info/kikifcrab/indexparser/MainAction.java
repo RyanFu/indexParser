@@ -157,7 +157,8 @@ public class MainAction {
 			fis.close();
 			
 			//…Ë÷√responseµƒheader
-			
+			response.addHeader("Content-Disposition", "attachment;filename="+filename.getBytes());
+			response.addHeader("Content-Length", "");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
