@@ -64,6 +64,18 @@ public class ParseTools {
 		}
 		return null;
 	}
+	
+	//过滤得到图片
+	public static NodeList getImgTag(Parser parser){
+		try{
+			NodeFilter filter=new TagNameFilter("img");
+			NodeList nodes=parser.extractAllNodesThatMatch(filter);
+			return nodes;
+		}catch(ParserException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	//遍历节点
 	public void visitAllNode(NodeList nodes){
