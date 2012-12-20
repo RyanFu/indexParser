@@ -38,8 +38,8 @@ import org.htmlparser.visitors.TextExtractingVisitor;
 //对HTML文件进行解析，下载IMG对象
 public class MainAction {
 	
-	static final String TARGET_ADDR="http://elog.gdbnet.cn:8001/themes/mobileModule/index_10382.html";
-//	static final String TARGET_ADDR="http://www.jandan.net/pic";
+//	static final String TARGET_ADDR="http://elog.gdbnet.cn:8001/themes/mobileModule/index_10382.html";
+	static final String TARGET_ADDR="http://www.jandan.net/pic";
 
 	/**
 	 * @param args
@@ -87,7 +87,7 @@ public class MainAction {
 					//对图片地址进行过滤，只要那些有效的
 					String fileSuffix=tmlPic.substring(tmlPic.lastIndexOf(".")+1);
 					//只下载JPG文件
-					if("png".equals(fileSuffix)||"PNG".equals(fileSuffix)){
+					if("jpg".equals(fileSuffix)||"JPG".equals(fileSuffix)||"gif".equals(fileSuffix)||"GIF".equals(fileSuffix)){
 						FileTools.downloadPic(tmlPic);
 					}
 					//对符合条件的节点进行处理

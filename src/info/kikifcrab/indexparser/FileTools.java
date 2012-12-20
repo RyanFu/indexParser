@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,19 +46,38 @@ public class FileTools {
 		
 		//流形式下载文件
 		try {
-			URL url=new URL(addr);
+			URL url=new URL(addr);			
+			int byteSum=0;
+			int byteRead=0;
 			
-			InputStream fis=url.openStream();
-			byte[] buffer=new byte[fis.available()];
-			fis.read(buffer);
-			fis.close();
-			System.out.println(addr.substring(addr.lastIndexOf("/")+1));
-				
-			String fileAddr="D:\\\\"+addr.substring(addr.lastIndexOf("/")+1);
-			File file=new File(fileAddr);
+			//取得文件保存名
+			String fileName=addr.substring(addr.lastIndexOf("/")+1);
+			//默认文件夹
+			String fileDir="D:\\testDownPic\\";
+			File fileDoc=new File(fileDir);
+			if(!fileDoc.exists()){
+				fileDoc.mkdir();
+			}
+//			System.out.println("addr:"+fileDir+fileName);
+			//新建新文件
+			/*
+			File theFile=new File(fileDoc+fileName);
+			if(!theFile.exists()){
+				fileDoc.createNewFile();
+			}
+			*/
 			
+			URLConnection conn=url.openConnection();
+			InputStream inStream=conn.getInputStream();
+			FileOutputStream fs=new FileOutputStream(fileDir+fileName);
 			
-
+			byte[] buffer =new byte[4096];		//定义读取块大小
+			int length;
+			while((byteRead=inStream.read(buffer))!=-1){
+				byteSum+=byteRead;
+				fs.write(buffer, 0, byteRead);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
